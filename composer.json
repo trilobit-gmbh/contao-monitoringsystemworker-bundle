@@ -1,9 +1,8 @@
 {
     "name": "trilobit-gmbh/contao-monitoringsystemworker-bundle",
     "type": "contao-bundle",
-    "description": "Contao 4 monitoring system worker bundle",
+    "description": "Contao 4 onitoring worker bundle",
     "license": "LGPL-3.0-or-later",
-    "version": "0.0.1",
     "authors": [
         {
             "name": "trilobit GmbH",
