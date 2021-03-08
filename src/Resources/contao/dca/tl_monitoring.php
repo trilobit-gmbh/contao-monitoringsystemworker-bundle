@@ -186,7 +186,7 @@ $GLOBALS['TL_DCA']['tl_monitoring']['fields']['certActive'] = [
     'exclude' => true,
     'filter' => true,
     'inputType' => 'checkbox',
-    'eval' => ['tl_class' => 'clr', 'readonly' => true, 'doNotCopy' => true],
+    'eval' => ['submitOnChange' => true, 'tl_class' => 'clr', 'readonly' => true, 'doNotCopy' => true],
     'sql' => "char(1) NOT NULL default ''",
 ];
 $GLOBALS['TL_DCA']['tl_monitoring']['fields']['certExhibitorsCn'] = [
