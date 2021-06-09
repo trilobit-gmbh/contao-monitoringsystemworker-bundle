@@ -10,6 +10,8 @@ declare(strict_types=1);
  */
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Monitoring\Monitoring;
+use Trilobit\MonitoringsystemworkerBundle\DataContainer\ListView;
 
 $GLOBALS['TL_DCA']['tl_monitoring']['subpalettes']['certActive'] = '';
 $GLOBALS['TL_DCA']['tl_monitoring']['palettes']['__selector__'][] = 'certActive';
@@ -18,7 +20,10 @@ PaletteManipulator::create()
     ->addLegend('contao_legend', 'last_test_legend', PaletteManipulator::POSITION_AFTER)
     ->addField(['contaoVersion', 'contaoMaintenance'], 'contao_legend', PaletteManipulator::POSITION_APPEND)
 
-    ->addLegend('php_legend', 'contao_legend', PaletteManipulator::POSITION_AFTER)
+    ->addLegend('googlemaps_legend', 'contao_legend', PaletteManipulator::POSITION_AFTER)
+    ->addField(['googlemapsDlh', 'googlemapsDlhCount', 'googlemapsDlhApi'], 'googlemaps_legend', PaletteManipulator::POSITION_APPEND)
+
+    ->addLegend('php_legend', 'googlemaps_legend', PaletteManipulator::POSITION_AFTER)
     ->addField(['phpVersion', 'phpMemoryLimit', 'phpMaxExecutionTime', 'phpMaxPostSize', 'phpMaxUploadFilesize'], 'php_legend', PaletteManipulator::POSITION_APPEND)
 
     ->addLegend('server_legend', 'php_legend', PaletteManipulator::POSITION_AFTER)
@@ -44,16 +49,52 @@ PaletteManipulator::create()
     ->applyToSubpalette('certActive', 'tl_monitoring')
 ;
 
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['label']['fields'] = ['customer', 'website', 'last_test_status', 'last_test_date', 'googlemapsDlh', 'googlemapsDlhApi', 'certDatesOfExpiry', 'contaoVersion', 'contaoMaintenance', 'phpVersion', 'quotaUsage'];
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['label']['label_callback'] = [ListView::class, 'getLabel'];
+
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['tests']['icon'] = 'bundles/trilobitmonitoringsystemworker/operation_tests.svg';
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['checkOne']['icon'] = 'bundles/trilobitmonitoringsystemworker/operation_check_one.svg';
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['scanClientWorkOffOne']['icon'] = 'bundles/trilobitmonitoringsystemworker/operation_scanclient_workoff_one.svg';
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['certCheck']['icon'] = 'bundles/trilobitmonitoringsystemworker/operation_cert_check_one.svg';
+
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['checkAll']['icon'] = 'bundles/trilobitmonitoringsystemworker/global_operation_check_all.svg';
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['compressAll']['icon'] = 'bundles/trilobitmonitoringsystemworker/file-archive-regular.svg';
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['scanClientWorkOffAll']['icon'] = 'bundles/trilobitmonitoringsystemworker/operation_scanclient_workoff_one.svg';
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['navigateToMonitoringResponseTimeGraph']['icon'] = 'bundles/trilobitmonitoringsystemworker/chart-bar-regular.svg';
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['navigateToMonitoringTimeline']['icon'] = 'bundles/trilobitmonitoringsystemworker/chart-line-solid.svg';
+
 $GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['certChecks'] = [
     'href' => 'key=checkCerts',
     'class' => 'header_icon',
-    'icon' => 'sync.svg',
+    'icon' => 'bundles/trilobitmonitoringsystemworker/global_operations_cert_check_all.svg',
+];
+
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations'] = [
+    'checkAll' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['checkAll'],
+    'certChecks' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['certChecks'],
+    'compressAll' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['compressAll'],
+    'scanClientWorkOffAll' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['scanClientWorkOffAll'],
+    // 'navigateToMonitoringResponseTimeGraph' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['navigateToMonitoringResponseTimeGraph'],
+    // 'navigateToMonitoringTimeline' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['navigateToMonitoringTimeline'],
+    'all' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['global_operations']['all'],
 ];
 
 $GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['certCheck'] = [
     'href' => 'key=checkCert',
     'class' => 'header_icon',
-    'icon' => 'sync.svg',
+    'icon' => 'bundles/trilobitmonitoringsystemworker/operation_cert_check_one.svg',
+];
+
+$GLOBALS['TL_DCA']['tl_monitoring']['list']['operations'] = [
+    'tests' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['tests'],
+    'checkOne' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['checkOne'],
+    'scanClientWorkOffOne' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['scanClientWorkOffOne'],
+    'certCheck' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['certCheck'],
+    'edit' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['edit'],
+    'copy' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['copy'],
+    'delete' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['delete'],
+    'toggle' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['toggle'],
+    'show' => $GLOBALS['TL_DCA']['tl_monitoring']['list']['operations']['show'],
 ];
 
 $GLOBALS['TL_DCA']['tl_monitoring']['fields']['contaoVersion'] = [
@@ -213,3 +254,38 @@ $GLOBALS['TL_DCA']['tl_monitoring']['fields']['certFingerprintSHA256'] = [
     'eval' => ['maxlength' => 128, 'readonly' => true, 'tl_class' => 'w50'],
     'sql' => "varchar(128) NOT NULL default ''",
 ];
+$GLOBALS['TL_DCA']['tl_monitoring']['fields']['googlemapsDlh'] = [
+    'exclude' => true,
+    'search' => true,
+    'filter' => true,
+    'sorting' => true,
+    'inputType' => 'select',
+    'default' => Monitoring::STATUS_UNTESTED,
+    'options' => [Monitoring::STATUS_UNTESTED, Monitoring::STATUS_OKAY, Monitoring::STATUS_ERROR],
+    'reference' => &$GLOBALS['TL_LANG']['tl_monitoring']['statusTypes'],
+    'eval' => ['tl_class' => 'w50', 'readonly' => true, 'helpwizard' => true, 'doNotCopy' => true],
+    'sql' => "varchar(64) NOT NULL default '".Monitoring::STATUS_UNTESTED."'",
+];
+
+$GLOBALS['TL_DCA']['tl_monitoring']['fields']['googlemapsDlhCount'] = [
+    'exclude' => true,
+    'search' => true,
+    'filter' => true,
+    'sorting' => true,
+    'inputType' => 'text',
+    'eval' => ['tl_class' => 'w50', 'readonly' => true, 'doNotCopy' => true],
+    'sql' => "int(5) unsigned NOT NULL default '0'",
+];
+
+$GLOBALS['TL_DCA']['tl_monitoring']['fields']['googlemapsDlhApi'] = [
+    'exclude' => true,
+    'search' => true,
+    'filter' => true,
+    'sorting' => true,
+    'inputType' => 'textarea',
+    'eval' => ['tl_class' => 'clr', 'class' => 'monospace', 'rte' => 'ace|html', 'readonly' => true, 'doNotCopy' => true],
+    'sql' => 'mediumtext NULL',
+];
+
+$GLOBALS['TL_DCA']['tl_monitoring']['fields']['client_token']['eval']['mandatory'] = false;
+$GLOBALS['TL_DCA']['tl_monitoring']['fields']['id']['sorting'] = true;

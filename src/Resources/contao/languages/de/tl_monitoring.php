@@ -60,3 +60,32 @@ $GLOBALS['TL_LANG']['tl_monitoring']['certFingerprintSHA256'][0] = 'SHA-256-Fing
 $GLOBALS['TL_LANG']['tl_monitoring']['certFingerprintSHA256'][1] = 'Fingerabdruck des Zertifikates';
 $GLOBALS['TL_LANG']['tl_monitoring']['certActive'][0] = 'Zertifikatsprüfung';
 $GLOBALS['TL_LANG']['tl_monitoring']['certActive'][1] = 'Das System konnte ein Zertifikat finden.';
+
+$GLOBALS['TL_LANG']['tl_monitoring']['checkAll'][0] = 'Alle Einträge prüfen';
+$GLOBALS['TL_LANG']['tl_monitoring']['checkAll'][1] = 'Alle <u>aktiven</u> Monitoring Einträge prüfen.';
+$GLOBALS['TL_LANG']['tl_monitoring']['certChecks'][0] = 'Alle Zertifikate prüfen';
+$GLOBALS['TL_LANG']['tl_monitoring']['certChecks'][1] = 'Alle Zertifikate <u>aktiver</u> Monitoring Einträge prüfen.';
+$GLOBALS['TL_LANG']['tl_monitoring']['compressAll'][0] = 'Alle Tests komprimieren';
+$GLOBALS['TL_LANG']['tl_monitoring']['compressAll'][1] = 'Alle Tests <u>aktiver</u> Monitoring Einträge komprimieren.';
+$GLOBALS['TL_LANG']['tl_monitoring']['scanClientWorkOffAll'][0] = 'Alle Client-Daten abarbeiten';
+$GLOBALS['TL_LANG']['tl_monitoring']['scanClientWorkOffAll'][1] = 'Alle Client-Daten <u>aktiver</u> Monitoring Einträge abarbeiten.';
+
+$GLOBALS['TL_LANG']['tl_monitoring']['navigateToMonitoringResponseTimeGraph'][0] = 'Antwortzeiten anzeigen';
+$GLOBALS['TL_LANG']['tl_monitoring']['navigateToMonitoringResponseTimeGraph'][1] = 'Antwortzeiten für aktuelle Filterung anzeigen.';
+$GLOBALS['TL_LANG']['tl_monitoring']['navigateToMonitoringTimeline'][0] = 'Zeitleisten anzeigen';
+$GLOBALS['TL_LANG']['tl_monitoring']['navigateToMonitoringTimeline'][1] = 'Zeitleisten für aktuelle Filterung anzeigen.';
+
+$GLOBALS['TL_LANG']['tl_monitoring']['certCheck'][0] = 'Zertifikat prüfen';
+$GLOBALS['TL_LANG']['tl_monitoring']['certCheck'][1] = 'Zertifikat für den Monitoring Eintrag mit der ID %s prüfen.';
+
+$GLOBALS['TL_LANG']['tl_monitoring']['cert_legend'] = 'Zertifikatsprüfung';
+
+if ('BE' === TL_MODE && 'monitoring' === \Contao\Input::get('do') && empty(\Contao\Input::get('act'))) {
+	$GLOBALS['TL_LANG']['tl_monitoring']['phpVersion'][0] = 'PHP';
+	$GLOBALS['TL_LANG']['tl_monitoring']['contaoVersion'][0] = 'Contao';
+	$GLOBALS['TL_LANG']['tl_monitoring']['contaoMaintenance'][0] = 'Wartung';
+	$GLOBALS['TL_LANG']['tl_monitoring']['quotaUsage'][0] = 'belegt';
+	$GLOBALS['TL_LANG']['tl_monitoring']['certDatesOfExpiry'][0] = 'SSL';
+	$GLOBALS['TL_LANG']['tl_monitoring']['last_test_date'][0] = 'Test';
+	$GLOBALS['TL_LANG']['tl_monitoring']['last_test_status'][0] = 'Status';
+}

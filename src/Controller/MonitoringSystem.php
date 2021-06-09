@@ -74,7 +74,7 @@ class MonitoringSystem extends Backend
      * @param $response
      * @param mixed $certOnly
      */
-    public function updateData($item, $response = null, $certOnly = false)
+    public function updateData($item, $response = null, $certOnly = false): void
     {
         $this->import('BackendUser', 'User');
 
@@ -108,7 +108,38 @@ class MonitoringSystem extends Backend
 
             $objVersions->create();
 
-            return $item;
+            return;
+        }
+
+        if (!empty($response['contao.version'])) {
+            $item->contaoVersion = $response['contao.version'];
+        }
+        if (!empty($response['contao.maintenanceMode'])) {
+            $item->contaoMaintenance = 'true' === $response['contao.maintenanceMode'] ? '1' : '';
+        }
+        if (!empty($response['php.version'])) {
+            $item->phpVersion = $response['php.version'];
+        }
+        if (!empty($response['php.memory_limit'])) {
+            $item->phpMemoryLimit = $response['php.memory_limit'];
+        }
+        if (!empty($response['php.max_execution_time'])) {
+            $item->phpMaxExecutionTime = $response['php.max_execution_time'];
+        }
+        if (!empty($response['php.post_max_size'])) {
+            $item->phpMaxPostSize = $response['php.post_max_size'];
+        }
+        if (!empty($response['php.upload_max_filesize'])) {
+            $item->phpMaxUploadFilesize = $response['php.upload_max_filesize'];
+        }
+        if (!empty($response['server.os'])) {
+            $item->serverOs = $response['server.os'];
+        }
+        if (!empty($response['server.software'])) {
+            $item->serverSoftware = $response['server.software'];
+        }
+        if (!empty($response['mysql.version'])) {
+            $item->sqlVersion = $response['mysql.version'];
         }
 
         if (\in_array('MonitoringClientSensorSystem', explode(', ', $response['monitoring.client.sensors']), true)) {
@@ -118,7 +149,6 @@ class MonitoringSystem extends Backend
             if (!empty($response['contao.maintenance'])) {
                 $item->contaoMaintenance = 'true' === $response['contao.maintenance'] ? '1' : '';
             }
-
             if (!empty($response['php.version'])) {
                 $item->phpVersion = $response['php.version'];
             }
@@ -134,18 +164,15 @@ class MonitoringSystem extends Backend
             if (!empty($response['php.upload_max_filesize'])) {
                 $item->phpMaxUploadFilesize = $response['php.upload_max_filesize'];
             }
-
             if (!empty($response['server.os'])) {
                 $item->serverOs = $response['server.os'];
             }
             if (!empty($response['server.software'])) {
                 $item->serverSoftware = $response['server.software'];
             }
-
             if (!empty($response['sql.version'])) {
                 $item->sqlVersion = $response['sql.version'];
             }
-
             if (!empty($response['disk.total'])) {
                 $item->diskTotal = System::getReadableSize($response['disk.total'], 2);
             }
@@ -155,9 +182,16 @@ class MonitoringSystem extends Backend
             if (!empty($response['disk.usage'])) {
                 $item->diskUsage = System::getReadableSize($response['disk.usage'], 2);
             }
-
             if (!empty($response['quota.usage'])) {
                 $item->quotaUsage = System::getReadableSize($response['quota.usage'], 2);
+            }
+            if (!empty($response['googlemaps'])) {
+                $item->googlemapsDlh = $response['googlemaps']['dlh.installed'];
+                $item->googlemapsDlhCount = $response['googlemaps']['dlh.count'];
+                $item->googlemapsDlhApi = json_encode([
+					'apiConfig' => $response['googlemaps']['dlh.apiConfig'],
+					'apiPage' => $response['googlemaps']['dlh.api']
+				]);
             }
         }
 
