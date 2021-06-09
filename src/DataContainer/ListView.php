@@ -25,10 +25,9 @@ class ListView extends Backend
 
         $index = array_search('customer', $GLOBALS['TL_DCA']['tl_monitoring']['list']['label']['fields'], true);
         if (false !== $index) {
-			$row['customer'] = str_replace(' &#62; ', '<br>→ ', $row['customer']);
-            $args[$index] = $row['customer'];           
+            $row['customer'] = str_replace(' &#62; ', '<br>→ ', $row['customer']);
+            $args[$index] = $row['customer'];
         }
-
 
         $index = array_search('last_test_date', $GLOBALS['TL_DCA']['tl_monitoring']['list']['label']['fields'], true);
         if (false !== $index) {
@@ -43,8 +42,6 @@ class ListView extends Backend
             $args[$index] = '<img src="bundles/trilobitmonitoringsystemworker/status_'.(!empty($row['last_test_status']) ? 'okay' : 'error').'.svg">';
         }
 
-
-
         $index = array_search('contaoMaintenance', $GLOBALS['TL_DCA']['tl_monitoring']['list']['label']['fields'], true);
         if (false !== $index) {
             $args[$index] = '<img src="bundles/trilobitmonitoringsystemworker/status_'.(empty($row['contaoMaintenance']) ? 'okay' : 'error').'.svg">';
@@ -55,31 +52,29 @@ class ListView extends Backend
             $args[$index] = preg_replace('/^(\d+)\.(\d+)\.(\d+).*/', '$1.$2.$3', $row['phpVersion']);
         }
 
-
         $index = array_search('googlemapsDlh', $GLOBALS['TL_DCA']['tl_monitoring']['list']['label']['fields'], true);
         if (false !== $index) {
-			$args[$index] = '<img src="bundles/trilobitmonitoringsystemworker/status_'.strtolower('Ungetestet' === $row['googlemapsDlh'] ? 'error' : $row['googlemapsDlh']).'.svg" style="float:left"> ';
+            $args[$index] = '<img src="bundles/trilobitmonitoringsystemworker/status_'.strtolower('Ungetestet' === $row['googlemapsDlh'] ? 'error' : $row['googlemapsDlh']).'.svg" style="float:left"> ';
         }
 
         $index = array_search('googlemapsDlhApi', $GLOBALS['TL_DCA']['tl_monitoring']['list']['label']['fields'], true);
         if (false !== $index) {
-			$args[$index] = '';
-            
+            $args[$index] = '';
+
             $data = json_decode($row['googlemapsDlhApi'], true);
-            
+
             $result = '';
             if (!empty($data)) {
-				$args[$index] .= '<strong>Einstellungen</strong><br>→ '
-					.$data['apiConfig'].'<br>'
-					.'<strong>Seitenstruktur</strong>';
-				foreach ($data['apiPage'] as $key => $value) {
-					$args[$index] .= '<br>→ '
-						.$value['dns'].' ('.$value['language'].')'.'<br>&nbsp;&nbsp;&nbsp;&nbsp;  → '
-						.$value['dlh_googlemaps_apikey'];
-				}
-			}            
+                $args[$index] .= '<strong>Einstellungen</strong><br>→ '
+                    .$data['apiConfig'].'<br>'
+                    .'<strong>Seitenstruktur</strong>';
+                foreach ($data['apiPage'] as $key => $value) {
+                    $args[$index] .= '<br>→ '
+                        .$value['dns'].' ('.$value['language'].')'.'<br>&nbsp;&nbsp;&nbsp;&nbsp;  → '
+                        .$value['dlh_googlemaps_apikey'];
+                }
+            }
         }
-
 
         $index = array_search('certDatesOfExpiry', $GLOBALS['TL_DCA']['tl_monitoring']['list']['label']['fields'], true);
         if (false !== $index) {
@@ -87,7 +82,7 @@ class ListView extends Backend
                 $args[$index] = '<img src="bundles/trilobitmonitoringsystemworker/status_unlocked.svg">';
             } elseif (empty($row['certDatesOfExpiry']) || 7 >= $row['certDatesOfExpiry']) {
                 $args[$index] = '<img src="bundles/trilobitmonitoringsystemworker/status_lock_open.svg">'.' / '.$row['certDatesOfExpiry'].'d';
-            } else { 
+            } else {
                 $args[$index] = '<img src="bundles/trilobitmonitoringsystemworker/status_lock_closed.svg">'.' / '.$row['certDatesOfExpiry'].'d';
             }
         }

@@ -189,9 +189,9 @@ class MonitoringSystem extends Backend
                 $item->googlemapsDlh = $response['googlemaps']['dlh.installed'];
                 $item->googlemapsDlhCount = $response['googlemaps']['dlh.count'];
                 $item->googlemapsDlhApi = json_encode([
-					'apiConfig' => $response['googlemaps']['dlh.apiConfig'],
-					'apiPage' => $response['googlemaps']['dlh.api']
-				]);
+                    'apiConfig' => $response['googlemaps']['dlh.apiConfig'],
+                    'apiPage' => $response['googlemaps']['dlh.api'],
+                ]);
             }
         }
 

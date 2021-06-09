@@ -81,11 +81,11 @@ $GLOBALS['TL_LANG']['tl_monitoring']['certCheck'][1] = 'Zertifikat für den Moni
 $GLOBALS['TL_LANG']['tl_monitoring']['cert_legend'] = 'Zertifikatsprüfung';
 
 if ('BE' === TL_MODE && 'monitoring' === \Contao\Input::get('do') && empty(\Contao\Input::get('act'))) {
-	$GLOBALS['TL_LANG']['tl_monitoring']['phpVersion'][0] = 'PHP';
-	$GLOBALS['TL_LANG']['tl_monitoring']['contaoVersion'][0] = 'Contao';
-	$GLOBALS['TL_LANG']['tl_monitoring']['contaoMaintenance'][0] = 'Wartung';
-	$GLOBALS['TL_LANG']['tl_monitoring']['quotaUsage'][0] = 'belegt';
-	$GLOBALS['TL_LANG']['tl_monitoring']['certDatesOfExpiry'][0] = 'SSL';
-	$GLOBALS['TL_LANG']['tl_monitoring']['last_test_date'][0] = 'Test';
-	$GLOBALS['TL_LANG']['tl_monitoring']['last_test_status'][0] = 'Status';
+    $GLOBALS['TL_LANG']['tl_monitoring']['phpVersion'][0] = 'PHP';
+    $GLOBALS['TL_LANG']['tl_monitoring']['contaoVersion'][0] = 'Contao';
+    $GLOBALS['TL_LANG']['tl_monitoring']['contaoMaintenance'][0] = 'Wartung';
+    $GLOBALS['TL_LANG']['tl_monitoring']['quotaUsage'][0] = 'belegt';
+    $GLOBALS['TL_LANG']['tl_monitoring']['certDatesOfExpiry'][0] = 'SSL';
+    $GLOBALS['TL_LANG']['tl_monitoring']['last_test_date'][0] = 'Test';
+    $GLOBALS['TL_LANG']['tl_monitoring']['last_test_status'][0] = 'Status';
 }

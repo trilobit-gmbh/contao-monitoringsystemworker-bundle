@@ -17,7 +17,7 @@ $GLOBALS['BE_MOD']['ContaoMonitoring']['monitoring']['checkCerts'] = [Monitoring
 $GLOBALS['TL_CRON']['daily']['MonitoringCerts'] = [MonitoringSystem::class, 'checkCerts'];
 
 if ('BE' === TL_MODE && 'monitoring' === \Contao\Input::get('do') && empty(\Contao\Input::get('act'))) {
-	$GLOBALS['TL_MOOTOOLS'][] = '<style>
+    $GLOBALS['TL_MOOTOOLS'][] = '<style>
 .tl_listing_container td {
 vertical-align: top;
 }
