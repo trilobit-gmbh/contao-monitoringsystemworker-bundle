@@ -11,8 +11,10 @@ declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
-$GLOBALS['TL_DCA']['tl_monitoring']['subpalettes']['certActive'] = '';
 $GLOBALS['TL_DCA']['tl_monitoring']['palettes']['__selector__'][] = 'certActive';
+$GLOBALS['TL_DCA']['tl_monitoring']['palettes']['__selector__'][] = 'client_scan_active';
+$GLOBALS['TL_DCA']['tl_monitoring']['subpalettes']['certActive'] = '';
+$GLOBALS['TL_DCA']['tl_monitoring']['subpalettes']['client_scan_active'] = '';
 
 PaletteManipulator::create()
     ->addLegend('contao_legend', 'last_test_legend', PaletteManipulator::POSITION_AFTER)
@@ -35,6 +37,8 @@ PaletteManipulator::create()
 
     ->addLegend('cert_legend', 'quota_legend', PaletteManipulator::POSITION_AFTER)
     ->addField(['certActive'], 'cert_legend', PaletteManipulator::POSITION_APPEND)
+
+    ->addField(['client_url', 'client_token', 'client_data'], 'client_legend', PaletteManipulator::POSITION_APPEND)
 
     ->applyToPalette('default', 'tl_monitoring')
 ;
@@ -71,7 +75,7 @@ $GLOBALS['TL_DCA']['tl_monitoring']['fields']['contaoMaintenance'] = [
     'filter' => true,
     'sorting' => true,
     'inputType' => 'checkbox',
-    'eval' => ['tl_class' => 'w50 m12', 'readonly' => true, 'doNotCopy' => true],
+    'eval' => ['tl_class' => 'w50 m12', 'disabled' => true, 'readonly' => true, 'doNotCopy' => true],
     'sql' => "char(1) NOT NULL default ''",
 ];
 $GLOBALS['TL_DCA']['tl_monitoring']['fields']['phpVersion'] = [
@@ -182,6 +186,7 @@ $GLOBALS['TL_DCA']['tl_monitoring']['fields']['quotaUsage'] = [
     'eval' => ['tl_class' => 'w50', 'readonly' => true, 'doNotCopy' => true],
     'sql' => "varchar(255) NOT NULL default ''",
 ];
+$GLOBALS['TL_DCA']['tl_monitoring']['fields']['client_scan_active']['eval']['submitOnChange'] = true;
 $GLOBALS['TL_DCA']['tl_monitoring']['fields']['certActive'] = [
     'exclude' => true,
     'filter' => true,
