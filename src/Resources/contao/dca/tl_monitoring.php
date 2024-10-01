@@ -11,10 +11,16 @@ declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
+foreach ($GLOBALS['TL_DCA']['tl_monitoring']['palettes']['__selector__'] as $key => $value) {
+    if ('client_scan_active' === $value) {
+        unset($GLOBALS['TL_DCA']['tl_monitoring']['palettes']['__selector__'][$key]);
+    }
+}
+
 $GLOBALS['TL_DCA']['tl_monitoring']['palettes']['__selector__'][] = 'certActive';
 $GLOBALS['TL_DCA']['tl_monitoring']['palettes']['__selector__'][] = 'client_scan_active';
 $GLOBALS['TL_DCA']['tl_monitoring']['subpalettes']['certActive'] = '';
-$GLOBALS['TL_DCA']['tl_monitoring']['subpalettes']['client_scan_active'] = '';
+$GLOBALS['TL_DCA']['tl_monitoring']['subpalettes']['client_scan_active'] = 'client_url,client_token,client_data';
 
 PaletteManipulator::create()
     ->addLegend('contao_legend', 'last_test_legend', PaletteManipulator::POSITION_AFTER)
@@ -37,8 +43,6 @@ PaletteManipulator::create()
 
     ->addLegend('cert_legend', 'quota_legend', PaletteManipulator::POSITION_AFTER)
     ->addField(['certActive'], 'cert_legend', PaletteManipulator::POSITION_APPEND)
-
-    ->addField(['client_url', 'client_token', 'client_data'], 'client_legend', PaletteManipulator::POSITION_APPEND)
 
     ->applyToPalette('default', 'tl_monitoring')
 ;
@@ -217,4 +221,10 @@ $GLOBALS['TL_DCA']['tl_monitoring']['fields']['certFingerprintSHA256'] = [
     'inputType' => 'text',
     'eval' => ['maxlength' => 128, 'readonly' => true, 'tl_class' => 'w50'],
     'sql' => "varchar(128) NOT NULL default ''",
+];
+$GLOBALS['TL_DCA']['tl_monitoring']['fields']['client_data'] = [
+    'exclude' => true,
+    'inputType' => 'textarea',
+    'eval' => ['readonly' => true, 'tl_class' => 'clr'],
+    'load_callback' => [['tl_monitoring_MonitoringScanClient', 'getClientData']],
 ];
